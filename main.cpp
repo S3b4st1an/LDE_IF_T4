@@ -5,7 +5,12 @@
 //  Created by Jafeth Alonso Carreón on 4/2/20.
 //  Copyright © 2020 Jafeth Alonso Carreón. All rights reserved.
 //
-
+/* Equipo 4:
+-Trejo Sebastian Rodolfo*
+-Daniel Román Ortiz Valencia
+-Gonzalez Hernandez Marco Antonio
+-Mendez Roman Juan carlos
+*/
 #include <iostream>
 using namespace std;
 
@@ -55,11 +60,7 @@ public:
     }
     
 };
-
-
-
-
-
+//Funciones de Nodo
 void Nodo::Asignasig(Nodo *x)
 {
     this->sig=x;
@@ -93,9 +94,164 @@ int Nodo::Obtienedato()
 {
     return(this->dato);
 }
-
-
-
+//Funciones LDE
+void LDE::InsertarI(int x)
+{
+    if(!Inicio)
+    {
+        Inicio=new Nodo(x);
+        
+		Inicio=Fin;
+    }
+    
+    else
+    {
+        Nodo *n=new Nodo(x);
+        n->Asignasig(Inicio);
+        Inicio->Asignaant(n);
+        Inicio=n;
+    }
+}
+void LDE::InsertarF(int x)
+{
+	if(!Inicio)
+    {
+    	Inicio = new Nodo(x);
+    }
+    
+    else
+    {
+        Nodo *n2 = new Nodo(x);
+        Fin->Asignasig(n2);
+        n2->Asignaant(Fin);
+        Fin = n2;
+    }
+}
+void LDE::BorrarI()
+{
+    if(!Inicio)
+        cout<<"Lista Vacia"<<endl;
+    else
+    {
+        if(Inicio==Fin)
+        	{
+           	 	delete Inicio;
+           		Fin=NULL;
+            	Inicio=NULL;
+        	}
+        else
+        	{
+        		Nodo *otro=Inicio;
+            	Inicio=Inicio->Obtienesig();
+            	otro->Asignasig(NULL);
+            	Inicio->Asignaant(NULL);
+            	delete otro;
+        	}
+    }
+}
+void LDE::BorrarF()
+{    
+    if(Inicio==NULL)
+    cout<<"Lista Vacia";
+    else
+    {
+        if(Inicio==Fin)
+        {delete Inicio;
+            Inicio=NULL;
+            Fin=NULL;
+        }
+        else
+        {
+          Nodo *Sharys;
+          Sharys=Fin->Obtieneant();
+          Sharys->Asignasig(NULL);
+          Fin->Asignaant(NULL);
+          delete Fin;
+          Fin=Sharys;
+        }
+     }
+}
+void LDE::Imprimir()
+{
+    if(Inicio==NULL)
+        cout<<"Lista Vacia"<<endl;
+    else
+    {Nodo *temp=Inicio;
+        while(temp!=NULL)
+        {
+            temp->Imprimir();
+            temp=temp->Obtienesig();
+        }
+    }
+}
+void LDE::ImprimirR()
+{
+    if(Inicio==NULL)
+        cout<<"Lista Vacia"<<endl;
+    else
+    {Nodo *xl=Fin;
+        while(xl!=NULL)
+        {
+            xl->Imprimir();
+            xl=xl->Obtieneant();
+        }
+    }
+}
+int LDE::Contar()
+{    
+	int piojo = 0;
+    if(!Inicio)
+        piojo = 0;
+    else
+    {
+        Nodo *REC = Inicio;
+        while(REC!=NULL)
+        {
+            piojo++;
+            REC = REC->Obtienesig();
+        }
+    }
+    return piojo;
+}
+Nodo* LDE::Buscar(int x)
+{
+    Nodo *pan=Inicio;
+    if(Inicio)
+    {
+        while (pan!=NULL)
+        {
+        if (pan->Obtienedato()==x)
+            return pan;
+        pan = pan->Obtienesig();
+        }
+    }
+    return pan;
+}
+void LDE::Borrar(int x)
+{
+    Nodo *aux=Buscar(x);
+    if(aux==NULL)
+        cout<<"DATO NO ENCONTRADO";
+    else
+    {
+        if(aux==Inicio)
+            BorrarI();
+        else
+        {
+            if(aux==Fin)
+                BorrarF();
+            else
+            {
+                Nodo *XL = aux-> Obtieneant();
+                XL->Asignasig(aux->Obtienesig());
+                aux->Obtienesig()->Asignaant(XL);
+                aux->Asignasig(NULL);
+                aux->Asignaant(NULL);
+                delete aux;
+            }
+        }
+    }
+}
 
 
 int main(int argc, const char * argv[])
